@@ -18,17 +18,18 @@ def Write_Contact(phone_list = 'phBook.txt'):   # функция добавле�
         first_name = input("Введите фамилию: ")        
         last_name = input("Введите имя: ")
         phone = input("Введите номерок: ")
-        phone_list.write(f'\n  {last_name}, {first_name}, {phone}')
+        phone_list.write(f'\n  {first_name}, {last_name}, {phone}')
 
 def FindContact(phone_list = 'phBook.txt'):  # функция поиска контакта
     with open('phBook.txt', 'r', encoding="UTF-8") as phone_list:
-        find_contact = str(input(f'что ищем? ->'))
+        find_contact = str(input(f'Введите фамилию для поиска? ->'))
         data = phone_list.readlines()
         a = True
         for i in data:
-            if find_contact in i:
-                print(i)
+            contact = i.strip().split(',')
+            if (find_contact in contact[0]):
                 a = False
+                print(i)
         if a:
             print("Контакт не найден")
 
@@ -42,25 +43,29 @@ def deleteContact(phone_list = 'phBook.txt'):  # Функция удаления
     with open('phBook.txt', 'r+', encoding="UTF-8") as phone_list:
         data = phone_list.readlines()
         PrintContacts(data)
-        numberContact = str(input(f'\n Какой номер удаляем?: '))
-        with open('phBook.txt', "w") as phone_list:
+        fnameContact = str(input(f'\n Кого удаляем? Фамилия: '))
+        nameContact = str(input(f'\n Кого удаляем? Имя: '))
+        with open('phBook.txt', "w", encoding="UTF-8") as phone_list:
             for i in data:
-                if numberContact not in i :
+                contact = i.strip().split(',')
+                if not ((fnameContact in contact[0]) and (nameContact in contact[1])):
                     phone_list.write(i)
-        print(f"Контакт {numberContact} удален\n")
+        print(f"Контакт {fnameContact} {nameContact} удален\n")
 
 def changeContact(phone_list = 'phBook.txt'):  # Функция изменения контакта
     with open('phBook.txt', 'r+', encoding="UTF-8") as phone_list:
         data = phone_list.readlines()
         PrintContacts(data)
-        numberContact = str(input(f'\n Какой контакт нужно изменить?: '))
-        with open('phBook.txt', "w") as phone_list:
+        fnameContact = str(input(f'\n Какой контакт нужно изменить? Фамилия: '))
+        nameContact = str(input(f'\n Какой контакт нужно изменить? Имя: '))
+        with open('phBook.txt', "w", encoding="UTF-8") as phone_list:
             for i in data:
-                if numberContact not in i :
+                contact = i.strip().split(',')
+                if not ((fnameContact in contact[0]) and (nameContact in contact[1])):
                     phone_list.write(i)
-        with open('phBook.txt', "a") as phone_list:
-            first_name = input("Меняем фамилию контакта? -> ")        
-            last_name = input("Меняем имя контакта? ->: ")
+        with open('phBook.txt', "a", encoding="UTF-8") as phone_list:
+            last_name = input("Меняем фамилию контакта? -> ")        
+            first_name = input("Меняем имя контакта? ->: ")
             phone = input("Введите новый номерок: ")
             phone_list.write(f'\n  {last_name}, {first_name}, {phone}')
         print(f"Контакт изменен\n")     
